@@ -10,7 +10,7 @@ import math
 #Ancillary Qubits = K + K*Log(L) = 2
 #Plus one additional qubit to hold |Psi>
 
-#qr(1) = |k>    qr(2) = |l>    qr(3) = |psi> 
+#qr(1) = |k>    qr(2) = |l>    qr(3) = |psi>
 qr = QuantumRegister(3)
 cr = ClassicalRegister(3)
 qc = QuantumCircuit(qr, cr)
@@ -36,3 +36,7 @@ qc.cx(qr[1], qr[2])
 qc.u3(theta, 0, math.pi, qr[0])
 
 pic = circuit_drawer(qc)
+
+import BackendSetup
+BackendSetup.signIn()
+backend = BackendSetup.bestBackend()
