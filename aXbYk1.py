@@ -25,6 +25,8 @@ qc.u3(theta, 0, math.pi,qr(1))
 #select(v) subcircuit - super not correct yet
 #Need to figure out double-controlled pauli gates
 #Also, david, did you figure out how to do -i multiplier? do we use the general u3 gate?
+#The -iX gate can be done by a rotation around the x-axis. qc.rx(pi, qr[q])
+#The -iZ gate can be done by a rotation around the z-axis. qc.rz(pi, qr[q])
 #I know what I am writing is not remotely correct, I just wanna test that circuit_drawer still works
 qc.cz(qr(2), qr(3))
 qc.cx(qr(1), qr(2))
