@@ -6,6 +6,17 @@ from qiskit.tools.visualization import plot_histogram, circuit_drawer
 #Ancillary Qubits = K + K*Log(L) = 2
 #Plus one additional qubit to hold |Psi>
 
-#H = aX + bY to the order K = 1
+#qr(1) = |k>    qr(2) = |l>    qr(3) = |psi> 
 qr = QuantumRegister(3)
+cr = ClassicalRegister(3)
+qc = QuantumCircuit(qr, cr)
+
+#-WRW*RW|0>|psi> = |0>U|psi>
+#First Apply W = B select(v) B*
+
+
+
+
+#select(v)
+
 
