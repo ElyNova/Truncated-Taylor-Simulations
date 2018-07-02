@@ -20,7 +20,7 @@ qc = QuantumCircuit(qr, cr)
 #THE W CIRCUIT: W = B select(v) B*
 #Rotation U1 of B subcircuit
 theta = math.acos(math.sqrt(1/(1+math.sqrt(t))))
-qc.u3(theta, 0, math.pi,qr(1))
+qc.u3(theta, 0, math.pi,qr[0])
 
 #select(v) subcircuit - super not correct yet
 #Need to figure out double-controlled pauli gates
@@ -28,11 +28,11 @@ qc.u3(theta, 0, math.pi,qr(1))
 #The -iX gate can be done by a rotation around the x-axis. qc.rx(pi, qr[q])
 #The -iZ gate can be done by a rotation around the z-axis. qc.rz(pi, qr[q])
 #I know what I am writing is not remotely correct, I just wanna test that circuit_drawer still works
-qc.cz(qr(2), qr(3))
-qc.cx(qr(1), qr(2))
-qc.cx(qr(2), qr(3))
+qc.cz(qr[1], qr[2])
+qc.cx(qr[0], qr[1])
+qc.cx(qr[1], qr[2])
 
 #B dagger
-qc.u3(theta, 0, math.pi, qr(1))
+qc.u3(theta, 0, math.pi, qr[0])
 
-circuit_drawer(qc)
+pic = circuit_drawer(qc)
