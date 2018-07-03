@@ -70,8 +70,34 @@ qc.ccx(anci[0], anci[1], cont[0])
 
 qc.u3(theta, 0, math.pi, anci[0])
 
+#R subcircuit
+qc.x(anci[0])
+qc.x(anci[1])
+qc.cz(anci[1], anci[0])
+qc.x(anci[0])
+qc.x(anci[1])
+
+
+#W
+qc.u3(theta, 0, math.pi,anci[0])
+
+qc.ccx(anci[0], anci[1], cont[0])
+qc.cy(cont[0], psi[0])
+qc.cx(cont[0], psi[0])
+qc.ccx(anci[0], anci[1], cont[0])
+
+qc.cx(anci[0], anci[1])
+
+qc.ccx(anci[0], anci[1], cont[0])
+qc.cz(cont[0], psi[0])
+qc.cy(cont[0], psi[0])
+qc.ccx(anci[0], anci[1], cont[0])
+
+qc.u3(theta, 0, math.pi, anci[0])
 pic = circuit_drawer(qc)
-pic.show()
+#from PIL import Image
+pic.save('WRWRW', 'png')
+#pic.show()
 
 #import BackendSetup
 #BackendSetup.signIn()
