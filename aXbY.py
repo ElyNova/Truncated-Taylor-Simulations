@@ -9,7 +9,7 @@ t = 1
 K = int(input("Enter an order for the approximation: "))
 a = 1
 b = 1
-phi = 2*math.acos(a/(a+b))
+phi = 2*math.acos(math.sqrt(a/(a+b)))
 
 ord = QuantumRegister(2*K)
 #l = QuantumRegister(K)
