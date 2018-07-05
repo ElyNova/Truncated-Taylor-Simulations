@@ -20,14 +20,14 @@ qc = QuantumCircuit(ord, helper, psi)
 #defining the B subcircuit
 def B(K, t, phi, qc, q):
     top = 0;
-    for k in range(1, K+1):
-        top = top + t**k
-    bottom = top + 1
     for n in range(1, K+1):
+        for k in range(n, K+1):
+            top = top + t**k/math.gamma(k+1)
+        bottom = top + t**(n-1)/math.gamma(n)
         #x = math.sqrt((t**(n-1)/math.gamma(n))/bottom)
         y = math.sqrt(top/bottom)
-        bottom = top
-        top = top - t**(n+1)/math.gamma(n+2)
+        #bottom = top
+        #top = top - t**(n+1)/math.gamma(n+2)
         theta = 2*math.asin(y)
         if n == 1:
             qc.ry(theta, ord[n-1])
