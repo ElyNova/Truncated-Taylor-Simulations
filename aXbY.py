@@ -9,7 +9,7 @@ t = 1
 K = int(input("Enter an order for the approximation: "))
 a = 1
 b = 1
-phi = 2*math.acos(a/(a+b))
+phi = 2*math.acos(math.sqrt(a/(a+b)))
 
 ord = QuantumRegister(2*K)
 #l = QuantumRegister(K)
@@ -19,15 +19,32 @@ qc = QuantumCircuit(ord, helper, psi)
 
 #defining the B subcircuit
 def B(K, t, phi, qc, q):
-    top = 0;
-    for k in range(1, K+1):
-        top = top + t**k
-    bottom = top + 1
     for n in range(1, K+1):
+        top = 0
+        for k in range(n, K+1):
+            top = top + t**k/math.gamma(k+1)
+        bottom = top + t**(n-1)/math.gamma(n)
         #x = math.sqrt((t**(n-1)/math.gamma(n))/bottom)
         y = math.sqrt(top/bottom)
-        bottom = top
-        top = top - t**(n+1)/math.gamma(n+2)
+        #bottom = top
+        #top = top - t**(n+1)/math.gamma(n+2)
+        theta = 2*math.asin(y)
+        if n == 1:
+            qc.ry(theta, ord[n-1])
+        else:
+            qc.cu3(theta,0,0, ord[n-2], ord[n-1])
+        qc.ry(phi, ord[K+n-1])
+        
+def B(K, t, phi, qc, q):
+    for n in reversed(range(1, K+1)):
+        top = 0
+        for k in range(n, K+1):
+            top = top + t**k/math.gamma(k+1)
+        bottom = top + t**(n-1)/math.gamma(n)
+        #x = math.sqrt((t**(n-1)/math.gamma(n))/bottom)
+        y = math.sqrt(top/bottom)
+        #bottom = top
+        #top = top - t**(n+1)/math.gamma(n+2)
         theta = 2*math.asin(y)
         if n == 1:
             qc.ry(theta, ord[n-1])
@@ -35,19 +52,19 @@ def B(K, t, phi, qc, q):
             qc.cu3(theta,0,0, ord[n-2], ord[n-1])
         qc.ry(phi, ord[K+n-1])
 
-def Bdag(K, t, phi, qc, ord):
-    top = math.sqrt(t**K/math.gamma(K+1))
-    bottom = top + math.sqrt(t**(K-1)/math.gamma(K))
-    for n in range(K, 0, -1):
-        y = math.sqrt(top/bottom)
-        top = bottom
-        bottom = bottom + math.sqrt(t**(n-1)/math.gamma(n))
-        theta = 2*math.asin(y)
-        if n==1:
-            qc.ry(theta, ord[n-1])
-        else:
-            qc.cu3(theta, 0, 0, ord[n-2], ord[n-1])
-        qc.ry(phi, ord[K+n-1])
+#def Bdag(K, t, phi, qc, ord):
+    #top = math.sqrt(t**K/math.gamma(K+1))
+    #bottom = top + math.sqrt(t**(K-1)/math.gamma(K))
+    #for n in range(K, 0, -1):
+        #y = math.sqrt(top/bottom)
+        #top = bottom
+        #bottom = bottom + math.sqrt(t**(n-1)/math.gamma(n))
+        #theta = 2*math.asin(y)
+        #if n==1:
+            #qc.ry(theta, ord[n-1])
+        #else:
+            #qc.cu3(theta, 0, 0, ord[n-2], ord[n-1])
+        #qc.ry(phi, ord[K+n-1])
 
 
 #defining the select(v) subcircuit
